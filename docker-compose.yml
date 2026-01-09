@@ -17,8 +17,6 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
-    runtime: nvidia # 如果你的 docker 版本不支援，刪掉也沒問題，使用 --gpus all 啟動即可
-
     cap_add:
       - SYS_PTRACE
     security_opt:
