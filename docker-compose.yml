@@ -6,11 +6,18 @@ services:
     ports:
       - "19999:19999"
 
-    runtime: nvidia
+    # ✅ NVIDIA runtime 設定
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
 
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+    runtime: nvidia # 如果你的 docker 版本不支援，刪掉也沒問題，使用 --gpus all 啟動即可
 
     cap_add:
       - SYS_PTRACE
@@ -26,7 +33,7 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
 
-      # 🔑 NVIDIA 關鍵
+      # NVIDIA NVML 掛載
       - /usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:ro
       - /dev:/dev
 
