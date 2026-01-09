@@ -6,7 +6,6 @@ services:
     ports:
       - "19999:19999"
 
-    # ✅ NVIDIA runtime 設定
     deploy:
       resources:
         reservations:
@@ -31,8 +30,7 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
 
-      # NVIDIA NVML 掛載
-      - /usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:ro
+      # ✅ GPU 必備
       - /dev:/dev
 
     restart: unless-stopped
