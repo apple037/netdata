@@ -5,23 +5,31 @@ services:
     hostname: netdata
     ports:
       - "19999:19999"
+
+    runtime: nvidia
+
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
     cap_add:
       - SYS_PTRACE
     security_opt:
       - apparmor=unconfined
+
     volumes:
       - netdataconfig:/etc/netdata
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
+
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
+
+      # 🔑 NVIDIA 關鍵
+      - /usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:ro
+      - /dev:/dev
+
     restart: unless-stopped
 
 volumes:
